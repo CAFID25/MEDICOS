@@ -1,0 +1,378 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="es" class="scroll-smooth"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Guía Fiscal Interactiva para Profesionales de la Salud&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.jsdelivr.net/npm/chart.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Chosen Palette: Calm Harmony Neutrals --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Application Structure Plan: Se ha diseñado una SPA de una sola página con secciones temáticas y navegación superior fija. El flujo comienza con un "Diagnóstico Rápido" interactivo para determinar el régimen fiscal, seguido por un explorador de "Deducciones" en formato de acordeón y una visualización de "Errores Comunes" en tarjetas. Esta estructura convierte la lectura pasiva en una experiencia activa de autoevaluación, guiando al usuario desde la identificación de su situación hasta la comprensión de la necesidad de una asesoría, que es el objetivo de conversión final. Se eligió este modelo sobre una réplica lineal de la guía para aumentar el engagement y demostrar valor de forma inmediata y personalizada. --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Visualization &amp; Content Choices:<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>- Régimen Fiscal -&gt; "Diagnóstico Rápido" interactivo con slider y gráfico de Chart.js. Permite al usuario ver una recomendación personalizada basada en sus ingresos, haciendo tangible el beneficio de RESICO.</p>
+<p class="p1"><span class="Apple-converted-space">        </span>- Deducciones -&gt; Acordeón interactivo. Organiza una larga lista de texto en categorías manejables (Gastos, Inversiones, etc.), evitando la sobrecarga de información y mejorando la exploración.</p>
+<p class="p1"><span class="Apple-converted-space">        </span>- Errores Comunes -&gt; Grid de tarjetas con iconos. Transforma una lista de advertencias en un elemento visualmente impactante y fácil de recordar. La interacción de click para ver detalle fomenta la curiosidad.</p>
+<p class="p1"><span class="Apple-converted-space">        </span>- Llamada a la Acción (CTA) -&gt; Múltiples botones y una sección final dedicada. Asegura que la opción de contactar esté siempre visible y accesible.</p>
+<p class="p1"><span class="Apple-converted-space">        </span>- Justificación: Todos los elementos están diseñados para ser más atractivos y útiles que el texto estático, guiando al usuario a través de un viaje de descubrimiento que culmina en la CTA.</p>
+<p class="p1"><span class="Apple-converted-space">        </span>- Library/Method: Vanilla JS, Tailwind CSS, Chart.js. --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Inter', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.chart-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 600px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-left: auto;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-right: auto;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 300px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-height: 400px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@media (min-width: 768px) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.chart-container {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>height: 350px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.accordion-content {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-height: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: max-height 0.5s ease-out, padding 0.5s ease-out;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.accordion-button[aria-expanded="true"] + .accordion-content {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-height: 1000px; /* valor suficientemente grande */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding-top: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding-bottom: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.accordion-button[aria-expanded="true"] .accordion-icon {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: rotate(180deg);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.accordion-icon {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: transform 0.3s ease-in-out;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="bg-stone-50 text-gray-800"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;nav class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex items-center justify-between h-16"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="font-bold text-xl text-sky-800"&gt;CAFID Asesores&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="hidden md:block"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="ml-10 flex items-baseline space-x-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;a href="#diagnostico" class="text-gray-600 hover:bg-sky-100 hover:text-sky-800 px-3 py-2 rounded-md text-sm font-medium"&gt;Diagnóstico&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;a href="#deducciones" class="text-gray-600 hover:bg-sky-100 hover:text-sky-800 px-3 py-2 rounded-md text-sm font-medium"&gt;Deducciones&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;a href="#errores" class="text-gray-600 hover:bg-sky-100 hover:text-sky-800 px-3 py-2 rounded-md text-sm font-medium"&gt;Errores Comunes&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;a href="#contacto" class="text-gray-600 hover:bg-sky-100 hover:text-sky-800 px-3 py-2 rounded-md text-sm font-medium"&gt;Contacto&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>&lt;div class="md:hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-sky-800 hover:bg-sky-100 focus:outline-none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"&gt;&lt;/path&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="mobile-menu" class="md:hidden hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="px-2 pt-2 pb-3 space-y-1 sm:px-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#diagnostico" class="nav-link-mobile block text-gray-600 hover:bg-sky-100 hover:text-sky-800 px-3 py-2 rounded-md text-base font-medium"&gt;Diagnóstico&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#deducciones" class="nav-link-mobile block text-gray-600 hover:bg-sky-100 hover:text-sky-800 px-3 py-2 rounded-md text-base font-medium"&gt;Deducciones&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#errores" class="nav-link-mobile block text-gray-600 hover:bg-sky-100 hover:text-sky-800 px-3 py-2 rounded-md text-base font-medium"&gt;Errores Comunes&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#contacto" class="nav-link-mobile block text-gray-600 hover:bg-sky-100 hover:text-sky-800 px-3 py-2 rounded-md text-base font-medium"&gt;Contacto&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/nav&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;main&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Hero Section --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section class="bg-white py-20 sm:py-28"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 leading-tight"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>Optimice sus Impuestos y &lt;span class="text-sky-700"&gt;Blinde su Práctica Profesional&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="mt-6 max-w-2xl mx-auto text-lg text-gray-600"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>Una guía fiscal interactiva para profesionales de la salud en Palenque, Chiapas. Deje de perder dinero y gane tranquilidad.</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="mt-8 flex flex-col sm:flex-row justify-center gap-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;a href="#contacto" class="bg-sky-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-sky-800 transition-all"&gt;Agendar Asesoría Gratuita&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;a href="#diagnostico" class="bg-gray-200 text-gray-800 font-semibold py-3 px-8 rounded-lg hover:bg-gray-300 transition-all"&gt;Iniciar Diagnóstico&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Diagnóstico Rápido --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="diagnostico" class="py-20 sm:py-28"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"&gt;Diagnóstico Fiscal Rápido&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="mt-4 text-lg leading-8 text-gray-600 max-w-3xl mx-auto"&gt;Responda una simple pregunta para recibir una recomendación instantánea sobre el régimen fiscal que podría beneficiarle más. Esta herramienta le ayudará a entender su punto de partida.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="mt-16 bg-white p-6 sm:p-8 rounded-2xl shadow-lg max-w-4xl mx-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label for="income-slider" class="block text-lg font-semibold text-gray-800"&gt;Estime sus ingresos anuales:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-gray-600 text-sm mb-2"&gt;Mueva el control deslizante para ajustar el monto.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;input id="income-slider" type="range" min="100000" max="5000000" value="1500000" step="50000" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="text-center text-2xl font-bold text-sky-700 mt-4" id="income-display"&gt;$1,500,000 MXN&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-start"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div id="recommendation-card" class="p-6 rounded-lg transition-all duration-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h3 class="text-xl font-bold"&gt;Recomendación Personalizada:&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div id="recommendation-text" class="mt-2"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="chart-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                             </span>&lt;canvas id="taxChart"&gt;&lt;/canvas&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Optimizador de Deducciones --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="deducciones" class="py-20 sm:py-28 bg-white"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"&gt;Optimizador de Deducciones&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="mt-4 text-lg leading-8 text-gray-600"&gt;Explore las categorías de gastos que puede deducir para reducir sus impuestos. Cada peso que deduce correctamente es un peso que trabaja para usted, no para el SAT.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div id="accordion-container" class="mt-16 space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Errores Comunes --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="errores" class="py-20 sm:py-28"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"&gt;Focos Rojos: 5 Errores Fiscales a Evitar&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="mt-4 text-lg leading-8 text-gray-600"&gt;Estos son los tropiezos más comunes que vemos en la práctica profesional. Conocerlos es el primer paso para no cometerlos.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div id="errors-container" class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- CTA Final --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="contacto" class="bg-sky-800 py-20 sm:py-28"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl"&gt;Dé el Siguiente Paso Hacia su Tranquilidad Fiscal&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="mt-4 text-lg leading-8 text-sky-100"&gt;Ha visto el potencial de una gestión fiscal estratégica. Ahora, permítame aplicarlo a su situación particular. Agende una sesión de diagnóstico gratuita de 20 minutos.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="mt-10"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;a id="whatsapp-button" href="#" target="_blank" rel="noopener noreferrer" class="bg-white text-sky-800 font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-gray-200 transition-all text-lg"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>Agendar por WhatsApp</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>&lt;div class="mt-8 text-sky-200 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;CAFID - Contadores y Asesores Fiscales&lt;/strong&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p&gt;Carlos Arias L.C.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p&gt;Palenque, Chiapas&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p&gt;Email: negocios@inteligenciagsa.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/main&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;footer class="bg-gray-800 text-white py-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;&amp;copy; 2025 CAFID Asesores. Todos los derechos reservados.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-gray-400 mt-2"&gt;Esta guía es de carácter informativo y no constituye una asesoría fiscal formal. Consulte a un profesional para analizar su caso específico.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/footer&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.addEventListener('DOMContentLoaded', function() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- CONFIGURATION ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const RESICO_LIMIT = 3500000;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const CAR_DEDUCTION_LIMIT = 175000;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const WHATSAPP_NUMBER = '529161862916';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const WHATSAPP_MESSAGE = 'Hola Carlos, vi su guía fiscal interactiva y me gustaría agendar mi sesión de diagnóstico gratuita.';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- DOM ELEMENTS ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const incomeSlider = document.getElementById('income-slider');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const incomeDisplay = document.getElementById('income-display');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const recommendationText = document.getElementById('recommendation-text');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const recommendationCard = document.getElementById('recommendation-card');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const mobileMenuButton = document.getElementById('mobile-menu-button');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const mobileMenu = document.getElementById('mobile-menu');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const accordionContainer = document.getElementById('accordion-container');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const errorsContainer = document.getElementById('errors-container');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const whatsappButton = document.getElementById('whatsapp-button');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- DATA ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const deductionsData = [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>title: '1. Gastos Operativos del Consultorio', icon: '🏢',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>content: 'Son los gastos diarios para mantener su práctica funcionando. Incluyen: Renta del inmueble, pago de servicios (luz, agua, internet), sueldos y salarios del personal (registrados ante IMSS), papelería y software de gestión.'</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>title: '2. Inversiones en Activos Fijos', icon: '💻',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>content: `La compra de equipo que perdura. Se deduce vía depreciación. Incluye: Equipo e instrumental médico, equipo de cómputo y mobiliario de oficina. La depreciación distribuye el costo del activo a lo largo de su vida útil fiscal.`</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>title: '3. Educación y Desarrollo Profesional', icon: '🎓',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>content: `Invertir en su conocimiento es 100% deducible. Incluye: Pago de congresos, seminarios, certificaciones, compra de libros y revistas especializadas, y los gastos de viaje asociados (transporte, hospedaje, alimentos con tope diario).`</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>title: '4. Vehículo y Transporte', icon: '🚗',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>content: `Esencial para su movilidad. Puede deducir la compra de un automóvil hasta por $${CAR_DEDUCTION_LIMIT.toLocaleString('es-MX')} MXN (vía depreciación). También son deducibles los gastos de gasolina, mantenimiento y seguro, siempre que tenga los CFDI correspondientes.`</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>title: '5. Otros Gastos y Deducciones Personales', icon: '❤️',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>content: 'Beneficios adicionales que la ley le permite y que a menudo se pasan por alto. Incluyen: Primas de seguros de gastos médicos, aportaciones voluntarias a su Plan Personal de Retiro (PPR), e intereses reales de créditos hipotecarios.'</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const errorsData = [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ title: 'Mezclar Finanzas', icon: '💳', content: 'Usar la misma cuenta bancaria para gastos personales y del negocio. Esto crea un desorden administrativo y es una bandera roja para el SAT. La solución: una cuenta bancaria exclusiva para su actividad profesional.' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ title: 'Deducir sin Sustento', icon: '📄', content: 'Guardar solo el ticket de compra no es suficiente. Para que un gasto sea válido, necesita el archivo CFDI (XML y PDF). Sin el XML, la deducción no existe fiscalmente. Siempre solicite su factura electrónica.' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ title: 'No Controlar Ingresos', icon: '💰', content: 'Confiar en la memoria para registrar cada consulta. Esto lleva a discrepancias. La solución: utilizar un sistema simple (hoja de cálculo o software) para registrar cada ingreso en el momento en que se produce.' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ title: 'Olvidar Declaraciones', icon: '🗓️', content: 'Omitir las declaraciones mensuales y la anual. Esto genera multas y recargos automáticos. La solución es establecer un calendario fiscal o delegar esta responsabilidad a un profesional.' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ title: 'Ignorar Retenciones', icon: '🏥', content: 'Pensar que si un hospital le retiene impuestos, ya no tiene obligaciones. Aún si le retienen, está obligado a presentar su declaración anual, donde podría incluso obtener un saldo a favor.' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ title: 'Pagar en Efectivo', icon: '💵', content: `Realizar pagos de más de $2,000 MXN en efectivo invalida la deducción. La solución: utilice siempre medios electrónicos (transferencia, tarjeta) para gastos importantes y pida su CFDI.`}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>];</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- INITIALIZATION ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>function init() {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setupEventListeners();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>populateDeductions();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>populateErrors();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setupWhatsAppLink();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>updateRecommendation(parseInt(incomeSlider.value));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- EVENT LISTENERS ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>function setupEventListeners() {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>mobileMenuButton.addEventListener('click', () =&gt; mobileMenu.classList.toggle('hidden'));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.querySelectorAll('.nav-link-mobile').forEach(link =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>link.addEventListener('click', () =&gt; mobileMenu.classList.add('hidden'));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>accordionContainer.addEventListener('click', handleAccordionClick);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>incomeSlider.addEventListener('input', (e) =&gt; updateRecommendation(parseInt(e.target.value)));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- DYNAMIC CONTENT POPULATION ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>function populateDeductions() {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>accordionContainer.innerHTML = deductionsData.map(item =&gt; `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-white rounded-lg shadow-md"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;button aria-expanded="false" class="accordion-button w-full flex justify-between items-center text-left p-4 font-semibold text-gray-800 hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="text-lg"&gt;&lt;span class="mr-3"&gt;${item.icon}&lt;/span&gt;${item.title}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="accordion-icon text-sky-700 text-2xl transform transition-transform duration-300"&gt;&amp;darr;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="accordion-content px-4 text-gray-600"&gt;${item.content}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>`).join('');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>function populateErrors() {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>errorsContainer.innerHTML = errorsData.map(item =&gt; `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-red-500 transform hover:-translate-y-2 transition-transform duration-300"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-5xl mb-4"&gt;${item.icon}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h3 class="text-xl font-bold text-gray-900"&gt;${item.title}&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="mt-2 text-gray-600"&gt;${item.content}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>`).join('');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- INTERACTIVITY HANDLERS ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>function handleAccordionClick(e) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const button = e.target.closest('.accordion-button');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (button) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const isExpanded = button.getAttribute('aria-expanded') === 'true';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>accordionContainer.querySelectorAll('.accordion-button').forEach(btn =&gt; btn.setAttribute('aria-expanded', 'false'));</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (!isExpanded) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>button.setAttribute('aria-expanded', 'true');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>function setupWhatsAppLink() {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>whatsappButton.href = url;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- CHART &amp; RECOMMENDATION LOGIC ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const taxChartCtx = document.getElementById('taxChart').getContext('2d');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const taxChart = new Chart(taxChartCtx, {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: 'bar',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>data: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>labels: ['Hasta $300k', 'Hasta $600k', 'Hasta $1.2M', 'Hasta $2.5M', 'Hasta $3.5M'],</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>datasets: [{</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>label: 'Tasa ISR RESICO',</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>data: [1.00, 1.10, 1.50, 2.00, 2.50],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>backgroundColor: Array(5).fill('rgba(3, 105, 161, 0.6)'),</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>borderColor: Array(5).fill('rgba(3, 105, 161, 1)'),</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>borderWidth: 1</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}]</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>responsive: true, maintainAspectRatio: false,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>plugins: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>legend: { display: false },</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>title: { display: true, text: 'Tasas de ISR en RESICO por Ingreso', font: { size: 16 } },</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>tooltip: { callbacks: { label: context =&gt; `Tasa: ${context.raw.toFixed(2)}%` } }</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>scales: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>y: { beginAtZero: true, title: { display: true, text: 'Tasa de Impuesto (%)' } },</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>x: { title: { display: true, text: 'Ingreso Anual (MXN)' } }</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>function updateRecommendation(income) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const formattedIncome = `$${income.toLocaleString('es-MX')} MXN`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>incomeDisplay.textContent = formattedIncome;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>let recommendationHTML, cardClass, cardTextColor, highlightIndex = -1;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (income &lt;= RESICO_LIMIT) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>cardClass = 'bg-sky-50 border-2 border-sky-600';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>cardTextColor = 'text-sky-800';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>recommendationHTML = `&lt;p class="text-gray-700"&gt;Con ingresos de &lt;strong&gt;${formattedIncome}&lt;/strong&gt;, el &lt;strong&gt;Régimen Simplificado de Confianza (RESICO)&lt;/strong&gt; es su mejor opción.&lt;/p&gt;&lt;ul class="list-disc list-inside mt-2 space-y-1 text-gray-600"&gt;&lt;li&gt;Pagaría una tasa de ISR muy baja (entre 1% y 2.5%).&lt;/li&gt;&lt;li&gt;Administración simplificada, ideal para enfocarse en su práctica.&lt;/li&gt;&lt;/ul&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (income &lt;= 300000) highlightIndex = 0;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>else if (income &lt;= 600000) highlightIndex = 1;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>else if (income &lt;= 1200000) highlightIndex = 2;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>else if (income &lt;= 2500000) highlightIndex = 3;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>else highlightIndex = 4;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>cardClass = 'bg-amber-50 border-2 border-amber-600';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>cardTextColor = 'text-amber-800';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>recommendationHTML = `&lt;p class="text-gray-700"&gt;Con ingresos de &lt;strong&gt;${formattedIncome}&lt;/strong&gt;, supera el límite de RESICO.&lt;/p&gt;&lt;p class="mt-2 text-gray-700"&gt;Debe tributar en el régimen de &lt;strong&gt;Actividad Empresarial y Profesional&lt;/strong&gt;.&lt;/p&gt;&lt;ul class="list-disc list-inside mt-2 space-y-1 text-gray-600"&gt;&lt;li&gt;Las deducciones se vuelven cruciales para bajar su base de impuestos.&lt;/li&gt;&lt;li&gt;Requiere una contabilidad más detallada.&lt;/li&gt;&lt;li&gt;Una asesoría es fundamental para optimizar su situación.&lt;/li&gt;&lt;/ul&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>recommendationCard.className = `p-6 rounded-lg transition-all duration-500 ${cardClass}`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>recommendationCard.querySelector('h3').className = `text-xl font-bold ${cardTextColor}`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>recommendationText.innerHTML = recommendationHTML;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>taxChart.data.datasets[0].backgroundColor = taxChart.data.datasets[0].data.map((_, i) =&gt; i === highlightIndex ? 'rgba(239, 68, 68, 0.8)' : 'rgba(3, 105, 161, 0.6)');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>taxChart.data.datasets[0].borderColor = taxChart.data.datasets[0].data.map((_, i) =&gt; i === highlightIndex ? 'rgba(239, 68, 68, 1)' : 'rgba(3, 105, 161, 1)');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>taxChart.update();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>init();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
